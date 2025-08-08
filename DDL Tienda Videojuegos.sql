@@ -195,3 +195,15 @@ CREATE TABLE Venta(
 --Crear indice de la tabla VENTA
 CREATE UNIQUE INDEX ix_Venta_NumeroFactura
 	ON Venta(NumeroFactura)
+
+--Crear tabla VENTADETALLE
+CREATE TABLE VentaDetalle(
+	IdVenta INT NOT NULL,
+	CONSTRAINT fk_VentaDetalle_IdVenta FOREIGN KEY (IdVenta) REFERENCES Venta(Id),
+	IdTitulo INT NOT NULL,
+	CONSTRAINT fk_VentaDetalle_IdTitulo FOREIGN KEY (IdTitulo) REFERENCES Titulo(Id),
+	CONSTRAINT pk_VentaDetalle PRIMARY KEY (IdVenta, IdTitulo),
+	Cantidad INT NOT NULL,
+	Precio DECIMAL(9,2) NOT NULL,
+	Descuento DECIMAL(9,2) NOT NULL
+)
