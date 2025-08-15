@@ -1,27 +1,29 @@
 --Crear la base de datos
-CREATE DATABASE TiendaVideoJuegos
+CREATE DATABASE TiendaVideojuegos605
 GO
 
---Cambiar de base de datos
-USE TiendaVideoJuegos
+--Ir a la base de datos
+USE  TiendaVideojuegos605
 
---Crear tabla PAIS
+--Crear la tabla PAIS
 CREATE TABLE Pais(
 	Id INT IDENTITY NOT NULL,
 	Nombre VARCHAR(100) NOT NULL,
-	CodigoAlfa VARCHAR(5) NOT NULL,
-	Indicativo INT NULL
+	CodigoAlfa VARCHAR(5) NOT NULL
 )
-
---Modificar la tabla PAIS para crear CLAVE PRIMARIA
+--Agregar campo INDICATIVO a la tabla  PAIS
 ALTER TABLE Pais
-	ADD CONSTRAINT pk_Pais_Id PRIMARY KEY (Id)
+	ADD Indicativo INT 
+
+--Agregar clave primaria de ka tabla PAIS
+ALTER TABLE Pais
+	ADD CONSTRAINT pk_Pais_Id PRIMARY KEY(Id)
 
 --Crear indices de la tabla PAIS
-CREATE INDEX ix_Pais_Nombre
+CREATE UNIQUE INDEX ix_Pais_Nombre
 	ON Pais(Nombre)
 
-CREATE INDEX ix_Pais_CodigoAlfa
+CREATE UNIQUE INDEX ix_Pais_CodigoAlfa
 	ON Pais(CodigoAlfa)
 
 --Crear tabla PLATAFORMA
@@ -34,7 +36,7 @@ CREATE TABLE Plataforma(
 )
 
 --Crear indice de la tabla PLATAFORMA
-CREATE INDEX ix_Plataforma_Nombre
+CREATE UNIQUE INDEX ix_Plataforma_Nombre
 	ON Plataforma(Nombre)
 
 --Crear tabla CATEGORIA
@@ -45,7 +47,7 @@ CREATE TABLE Categoria(
 )
 
 --Crear indice de la tabla CATEGORIA
-CREATE INDEX ix_Categoria_Nombre
+CREATE UNIQUE INDEX ix_Categoria_Nombre
 	ON Categoria(Nombre)
 
 --Crear tabla FORMATO
@@ -56,21 +58,34 @@ CREATE TABLE Formato(
 )
 
 --Crear indice de la tabla FORMATO
-CREATE INDEX ix_Formato_Nombre
+CREATE UNIQUE INDEX ix_Formato_Nombre
 	ON Formato(Nombre)
 
 --Crear tabla DESARROLLADOR
 CREATE TABLE Desarrollador(
 	Id INT IDENTITY NOT NULL,
-	CONSTRAINT pk_Desarrollador_Id PRIMARY KEY (Id),
+	CONSTRAINT pk_Desarrolador_Id PRIMARY KEY (Id),
 	Nombre VARCHAR(100) NOT NULL,
 	IdPais INT NOT NULL,
-	CONSTRAINT fk_Desarrollador_IdPais FOREIGN KEY (IdPais) REFERENCES Pais (Id)
+	CONSTRAINT fk_Desarrollador_IdPais FOREIGN KEY (IdPais) REFERENCES Pais(Id)
 )
 
 --Crear indice de la tabla DESARROLLADOR
 CREATE UNIQUE INDEX ix_Desarrollador_Nombre
 	ON Desarrollador(Nombre)
+
+--Crear tabla CIUDAD
+CREATE TABLE Ciudad(
+	Id INT IDENTITY NOT NULL,
+	CONSTRAINT pk_Ciudad_Id PRIMARY KEY (Id),
+	Nombre VARCHAR(100) NOT NULL,
+	IdPais INT NOT NULL,
+	CONSTRAINT fk_Ciudad_IdPais FOREIGN KEY (IdPais) REFERENCES Pais(Id)
+)
+
+--Crear indice de la tabla CIUDAD
+CREATE UNIQUE INDEX ix_Ciudad_Nombre
+	ON Ciudad(IdPais, Nombre)
 
 --Crear tabla TITULO
 CREATE TABLE Titulo(
@@ -87,19 +102,6 @@ CREATE TABLE Titulo(
 --Crear indice de la tabla TITULO
 CREATE UNIQUE INDEX ix_Titulo_Nombre
 	ON Titulo(Nombre, Version)
-
---Crear tabla CIUDAD
-CREATE TABLE Ciudad(
-	Id INT IDENTITY NOT NULL,
-	CONSTRAINT pk_Ciudad_Id PRIMARY KEY (Id),
-	Nombre VARCHAR(100) NOT NULL,
-	IdPais INT NOT NULL,
-	CONSTRAINT fk_Ciudad_IdPais FOREIGN KEY (IdPais) REFERENCES Pais(Id)
-)
-
---Crear indice de la tabla CIUDAD
-CREATE UNIQUE INDEX ix_Ciudad_Nombre
-	ON Ciudad(IdPais, Nombre)
 
 --Crear tabla TITULOPLATAFORMA
 CREATE TABLE TituloPlataforma(
@@ -128,11 +130,25 @@ CREATE TABLE TituloFormato(
 	CONSTRAINT pk_TituloFormato PRIMARY KEY (IdTitulo, IdFormato)
 )
 
+--Crear tabla TIPODOCUMENTO
+CREATE TABLE TipoDocumento(
+	Id INT IDENTITY NOT NULL,
+	CONSTRAINT pk_TipoDocumento_Id PRIMARY KEY (Id),
+	Nombre VARCHAR(100) NOT NULL,
+	Sigla VARCHAR(5) NOT NULL
+)
+
+--Crear indice de la tabla TIPODOCUMENTO
+CREATE UNIQUE INDEX ix_TipoDocumento_Nombre
+	ON TipoDocumento(Nombre)
+
 --Crear tabla CLIENTE
 CREATE TABLE Cliente(
 	Id INT IDENTITY NOT NULL,
 	CONSTRAINT pk_Cliente_Id PRIMARY KEY (Id),
 	Nombre VARCHAR(100) NOT NULL,
+	IdTipoDocumento INT NOT NULL,
+	CONSTRAINT fk_Cliente_IdTipoDocumento FOREIGN KEY (IdTipoDocumento) REFERENCES TipoDocumento(Id),
 	NumeroIdentificacion VARCHAR(20) NOT NULL,
 	CodigoPostal VARCHAR(10) NULL,
 	FechaNacimiento DATE NULL,
@@ -140,7 +156,8 @@ CREATE TABLE Cliente(
 	IdCiudad INT NOT NULL,
 	CONSTRAINT fk_Cliente_IdCiudad FOREIGN KEY (IdCiudad) REFERENCES Ciudad(Id),
 	Correo VARCHAR(100) NOT NULL,
-	Movil VARCHAR(20) NOT NULL
+	Movil VARCHAR(20) NOT NULL,
+	Clave VARCHAR(50) NULL
 )
 
 --Crear indices de la tabla CLIENTE
@@ -148,13 +165,15 @@ CREATE INDEX ix_Cliente_Nombre
 	ON Cliente(Nombre)
 
 CREATE UNIQUE INDEX ix_Cliente_Identificacion
-	ON Cliente(NumeroIdentificacion)
+	ON Cliente(IdTipoDocumento, NumeroIdentificacion)
 
 --Crear tabla EMPLEADO
 CREATE TABLE Empleado(
 	Id INT IDENTITY NOT NULL,
 	CONSTRAINT pk_Empleado_Id PRIMARY KEY (Id),
 	Nombre VARCHAR(100) NOT NULL,
+	IdTipoDocumento INT NOT NULL,
+	CONSTRAINT fk_Empleado_IdTipoDocumento FOREIGN KEY (IdTipoDocumento) REFERENCES TipoDocumento(Id),
 	NumeroIdentificacion VARCHAR(20) NOT NULL,
 	Clave VARCHAR(20) NOT NULL
 )
@@ -164,7 +183,7 @@ CREATE INDEX ix_Empleado_Nombre
 	ON Empleado(Nombre)
 
 CREATE UNIQUE INDEX ix_Empleado_Identificacion
-	ON Empleado(NumeroIdentificacion)
+	ON Empleado(IdTipoDocumento, NumeroIdentificacion)
 
 --Crear tabla ESTADOVENTA
 CREATE TABLE EstadoVenta(
@@ -207,3 +226,4 @@ CREATE TABLE VentaDetalle(
 	Precio DECIMAL(9,2) NOT NULL,
 	Descuento DECIMAL(9,2) NOT NULL
 )
+
