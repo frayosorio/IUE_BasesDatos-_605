@@ -46,6 +46,8 @@ CREATE TABLE Categoria(
 	Nombre VARCHAR(50) NOT NULL
 )
 
+ALTER TABLE Categoria ADD Descripcion VARCHAR(200)
+
 --Crear indice de la tabla CATEGORIA
 CREATE UNIQUE INDEX ix_Categoria_Nombre
 	ON Categoria(Nombre)
@@ -56,6 +58,8 @@ CREATE TABLE Formato(
 	CONSTRAINT pk_Formato_Id PRIMARY KEY (Id),
 	Nombre VARCHAR(50) NOT NULL
 )
+
+ALTER TABLE Formato ADD Descripcion VARCHAR(200)
 
 --Crear indice de la tabla FORMATO
 CREATE UNIQUE INDEX ix_Formato_Nombre
