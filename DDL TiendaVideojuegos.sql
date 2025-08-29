@@ -103,7 +103,7 @@ CREATE TABLE Ciudad(
 
 --Crear indice de la tabla CIUDAD
 CREATE UNIQUE INDEX ix_Ciudad_Nombre
-	ON Ciudad(IdPais, Nombre)
+	ON Ciudad(IdRegion, Nombre)
 
 --Crear tabla TITULO
 CREATE TABLE Titulo(
