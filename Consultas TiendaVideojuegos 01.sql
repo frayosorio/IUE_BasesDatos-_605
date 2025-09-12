@@ -91,7 +91,7 @@ SELECT E.Nombre Estado, COUNT(*)
 	GROUP BY E.Nombre
 
 --Cual es el cliente con más ventas
-SELECT --TOP 1 
+SELECT TOP 1 
 	T.Sigla+' '+C.NumeroIdentificacion Identificacion, C.Nombre,
 	COUNT(*) TotalVentas
 	FROM Cliente C
