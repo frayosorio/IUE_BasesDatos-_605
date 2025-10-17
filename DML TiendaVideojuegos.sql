@@ -1931,6 +1931,7 @@ INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES
 INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES(26, 22, 1, 20000, 0);
 INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES(27, 28, 1, 15000, 0);
 INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES(28, 10, 1, 20000, 0);
+INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES(28, 20, 2, 50000, 5000);
 INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES(29, 40, 1, 15000, 0);
 INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES(30, 7, 1, 20000, 0);
 INSERT INTO VentaDetalle (IdVenta, IdTitulo, Cantidad, Precio, Descuento) VALUES(31, 19, 1, 20000, 0);
