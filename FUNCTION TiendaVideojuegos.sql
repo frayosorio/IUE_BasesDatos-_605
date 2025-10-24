@@ -11,3 +11,18 @@ BEGIN
 
 	RETURN @Total
 END
+GO
+
+--Crear una función de tabla que permita listar los títulos incluidos en una venta
+CREATE FUNCTION fTitulosVenta(@IdVenta INT)
+RETURNS TABLE
+AS
+RETURN
+(
+	SELECT T.Nombre Titulo, VD.Cantidad, VD.Precio, VD.Descuento,
+		VD.Cantidad*VD.Precio-VD.Descuento ValorTotal
+		FROM VentaDetalle VD
+			JOIN Titulo T ON T.Id=VD.IdTitulo
+		WHERE VD.IdVenta=@IdVenta
+)
+GO
