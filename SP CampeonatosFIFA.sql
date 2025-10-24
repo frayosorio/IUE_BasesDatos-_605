@@ -38,7 +38,7 @@ AS BEGIN
 	-- Insertar losencuentros que no existen
 	INSERT INTO Encuentro
 		(IdPais1, IdPais2, IdFase, IdCampeonato, IdEstadio)
-		SELECT C.IdPais1, C.IdPais2, 1, @IdCampeonato, @IdEstadio)
+		SELECT C.IdPais1, C.IdPais2, 1, @IdCampeonato, @IdEstadio
 			FROM Combinaciones C
 
 	PRINT 'Encuentros generados correctamente para el grupo ' + CAST(@IdGrupo AS VARCHAR);
