@@ -40,8 +40,10 @@ BEGIN
 					ELSE 0
 					END)
 			FROM GrupoPais GP
+				JOIN Grupo G ON G.Id=GP.IdGrupo 
 				JOIN Pais P ON GP.IdPais=P.Id
 				JOIN Encuentro E ON (P.Id=E.IdPais1 OR P.Id=E.IdPais2)
+					AND E.IdCampeonato=G.IdCampeonato
 			WHERE GP.IdGrupo=@idGrupo
 				AND E.IdFase=1
 			GROUP BY P.Id, P.Pais
